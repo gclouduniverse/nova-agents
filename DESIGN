@@ -1,0 +1,26 @@
+There will be 2 file structures for the jobs. A local structure and a cloud structure. The local structure will be used by the extension to create jobs. The local agent will watch and read the local structure and then create a corresponding job with VM allocations in the remote structure. The remote agent will pull from the remote structure and execute jobs on the local VM. 
+
+Local Structure:
+   jobs/
+     |__<job1_id> ( A unique ID created by the extension)
+     |       |_ config.yaml  (YAML file describing the job config)
+     |       |_ <my_notebook>.ipynb ( Notebook file to submit)
+     |__<job2_id>    ....
+     
+ Remote Structure:
+   jobs/
+     |__<job1_id> 
+     |       |_ machine1 (machine name that should do the job)
+     |            |_ <my_notebook>.ipynb  (Notebook file to execute)
+     |            |_ RUNNING              (An empty file marking that the job is already running)
+     |            |_ DONE                 (An empty file marking thet the job is complete)
+     |            |_ <my_notebook>.nbconvert.ipynb ( output notebook file)
+     |       |_ machine2 ...
+     |
+     |__<job2_id>    ....
+     
+     
+ config.yaml format:
+ 
+  machine_type: n1-standard-8 (or any of the types in https://cloud.google.com/compute/docs/machine-types)
+  count: 1 ( number of gce instances to create. minimum is 1)
