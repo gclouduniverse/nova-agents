@@ -2,16 +2,16 @@ There will be 2 file structures for the jobs. A local structure and a cloud stru
 
 Local Structure:
    jobs/
-     |__<job1_id> ( A unique ID created by the extension)
-     |       |_ config.yaml  (YAML file describing the job config)
-     |       |_ <my_notebook>.ipynb ( Notebook file to submit)
-     |__<job2_id>    ....
+     |__<job1_id>.yaml (YAML file describing the job config)( <job1_id> A unique ID created by the extension)
+     |       
+     |__<job2_id>.yaml   ....
      
  Remote Structure:
    jobs/
      |__<job1_id> 
      |       |_ machine1 (machine name that should do the job)
-     |            |_ <my_notebook>.ipynb  (Notebook file to execute)
+     |            |_ <dir>                (dir with content from the <dir> attribute in job config file)
+     |            |_ <job1_id>.yaml       (job config file)
      |            |_ RUNNING              (An empty file marking that the job is already running)
      |            |_ DONE                 (An empty file marking thet the job is complete)
      |            |_ <my_notebook>.nbconvert.ipynb ( output notebook file)
@@ -24,3 +24,5 @@ Local Structure:
  
   machine_type: n1-standard-8 (or any of the types in https://cloud.google.com/compute/docs/machine-types)
   count: 1 ( number of gce instances to create. minimum is 1)
+  notebook: relative/path/to/<my_notebook>.ipynb ( Notebook file to submit)
+  dir: dir/to/copy ( The directory that contains the above path.
