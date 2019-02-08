@@ -1,0 +1,4 @@
+machine_type: n1-standard-8
+count: 1
+notebook: relative/path/to/<my_notebook>.ipynb
+dir: dir/to/copy
