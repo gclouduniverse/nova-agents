@@ -23,6 +23,8 @@ Local Structure:
  config.yaml format:
  
   machine_type: n1-standard-8 (or any of the types in https://cloud.google.com/compute/docs/machine-types)
-  count: 1 ( number of gce instances to create. minimum is 1)
+  machine_count: 2 ( number of gce instances to create. minimum is 1)
+  gpu_type: nvidia-tesla-p100
+  gpu_count: 1
   notebook: relative/path/to/<my_notebook>.ipynb ( Notebook file to submit)
   dir: dir/to/copy ( The directory that contains the above path.
