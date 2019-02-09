@@ -1,5 +1,5 @@
 #!/bin/bash -v
-sourc utils.sh
+source utils.sh
 
 gsutil ls ${GCS_BUCKET} ||  gsutil mb ${GCS_BUCKET}
 gsutil ls ${GCS_BUCKET}/jobs ||  gsutil mkdir $GCS_BUCKET/jobs
