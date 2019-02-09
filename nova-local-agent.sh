@@ -2,7 +2,6 @@
 source utils.sh
 
 gsutil ls ${GCS_BUCKET} ||  gsutil mb ${GCS_BUCKET}
-gsutil ls ${GCS_BUCKET}/jobs ||  gsutil mkdir $GCS_BUCKET/jobs
 
 cd ${JUPYTER_HOME}
 [[ -e jobs ]] || mkdir jobs
@@ -10,7 +9,7 @@ cd ${JUPYTER_HOME}
 while :
 do
   sleep 5
-  [[ -e jobs/*.yaml ]] || continue
+  [[ ! -e jobs/*.yaml ]] || continue
   echo "Jobs found."
   for jobfile in jobs/*.yaml
   do
