@@ -1,4 +1,4 @@
-export JUPYTER_HOME=~/nova
+export JUPYTER_HOME=/home/jupyter
 export GCS_BUCKET=gs://nova-artifacts-$(gcloud config get-value project)
 export ZONE=$(gcloud config get-value compute/zone)
 if [[ ZONE == "(unset)" ]]; then
