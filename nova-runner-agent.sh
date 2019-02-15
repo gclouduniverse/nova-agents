@@ -17,7 +17,7 @@ while read jobdir; do
       if [[ "$?" != "0" ]]; then
         export job=${jobdir:${#jobsdir}:-1}
         echo "job:$job"
-        [[ -e test ]] || mkdir $job
+        [[ -e $job ]] || mkdir $job
         cd $job
         echo "started:$(date)" > RUNNING
         gsutil cp RUNNING ${machdir}RUNNING
