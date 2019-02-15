@@ -8,7 +8,6 @@ cd ${JUPYTER_HOME}
 
 while :
 do
-  sleep 5
   ls jobs/*.yaml || continue
   echo "Jobs found."
   for jobfile in jobs/*.yaml
@@ -37,9 +36,7 @@ do
         export machine=$job$i
 
         export machine_dir=$GCS_BUCKET/jobs/$job/$machine
-        gsutil mkdir $machine_dir
-        gsutil mkdir $machine_dir/homedir
-        gsutil cp -r $dir/* $machine_dir/homedir
+        gsutil cp -r $dir/* $machine_dir/homedir/
         gsutil cp jobs/$job.yaml $machine_dir/$job.yaml
 
         echo "Creating VM: $machine"
@@ -55,4 +52,5 @@ do
       done
     fi
   done
+  sleep 5
 done
