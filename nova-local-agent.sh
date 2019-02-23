@@ -41,6 +41,7 @@ do
         gsutil cp jobs/$job.yaml $machine_dir/$job.yaml
 
         echo "Creating VM: $machine"
+        echo "Image: $(get-image)"
         gcloud compute instances create $machine \
           --zone=$ZONE \
           --image-family=$(get-image) \
