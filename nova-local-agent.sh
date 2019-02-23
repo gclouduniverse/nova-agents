@@ -3,11 +3,12 @@ source utils.sh
 
 gsutil ls ${GCS_BUCKET} ||  gsutil mb ${GCS_BUCKET}
 
-cd ${JUPYTER_HOME}
+cd ${JUPYTER_SERVER_ROOT}
 [[ -e jobs ]] || mkdir jobs
 
 while :
 do
+  sleep 5
   ls jobs/*.yaml || continue
   echo "Jobs found."
   for jobfile in jobs/*.yaml
@@ -48,9 +49,9 @@ do
           --accelerator="type=$gput,count=$gpuc"\
           --machine-type=$mtype \
           --boot-disk-size=200GB \
-          --scopes=https://www.googleapis.com/auth/cloud-platform
+          --scopes=https://www.googleapis.com/auth/cloud-platform \
+          --metadata="post-startup-script=https://raw.githubusercontent.com/gclouduniverse/nova-agents/master/nova-runner-agent.sh"
       done
     fi
   done
-  sleep 5
 done
