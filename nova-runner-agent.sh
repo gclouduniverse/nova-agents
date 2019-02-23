@@ -1,7 +1,8 @@
 #!/bin/bash -v
+curl -L https://raw.githubusercontent.com/gclouduniverse/nova-agents/master/utils.sh
 source utils.sh
 
-cd ${JUPYTER_HOME}
+cd ${JUPYTER_SERVER_ROOT}
 [[ -e runningjobs ]] || mkdir runningjobs
 cd runningjobs
 export jobsdir=${GCS_BUCKET}/jobs/
