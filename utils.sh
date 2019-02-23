@@ -13,7 +13,7 @@ function get-yaml-val() {
 }
 
 function get-image() {
-  hostname | grep pytorch
+  hostname | grep -q pytorch
   if [[ "$?" == "0" ]]; then
     echo pytorch-latest-gpu
   else
