@@ -26,7 +26,7 @@ do
       echo $mcount
       export dir=$(get-yaml-val dir ${jobfile})
       echo $dir
-      ls ${JUPYTER_HOME}/$dir  || continue
+      ls ${JUPYTER_SERVER_ROOT}/$dir  || continue
       export mtype=$(get-yaml-val machine_type ${jobfile})
       echo $mtype
       export zone=$(get-yaml-val zone ${jobfile})
@@ -34,7 +34,7 @@ do
       echo $ZONE
       gsutil mkdir $GCS_BUCKET/jobs/$job
       for i in $(seq 1 1 $mcount); do
-        export machine=$job$i
+        export machine=$(echo job$job$i | tr - x)
 
         export machine_dir=$GCS_BUCKET/jobs/$job/$machine
         gsutil cp -r $dir/* $machine_dir/homedir/

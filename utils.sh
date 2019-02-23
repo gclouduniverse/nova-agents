@@ -1,9 +1,9 @@
 export JUPYTER_HOME=/home/jupyter
 export GCS_BUCKET=gs://nova-artifacts-$(gcloud config get-value project)
 export ZONE=$(gcloud config get-value compute/zone)
-if [[ ZONE == "(unset)" ]]; then
-  ZONE="/"$(curl http://metadata.google.internal/computeMetadata/v1/instance/zone -H "Metadata-Flavor: Google")
-  ZONE="${ZONE##/*/}"
+if [[ $ZONE == "" ]]; then
+  export ZONE=$(curl http://metadata.google.internal/computeMetadata/v1/instance/zone -H "Metadata-Flavor: Google")
+  export ZONE="${ZONE##*/}"
 fi
 
 function get-yaml-val() {

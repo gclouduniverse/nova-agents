@@ -1,5 +1,5 @@
 #!/bin/bash -v
-curl -L https://raw.githubusercontent.com/gclouduniverse/nova-agents/master/utils.sh
+curl -L https://raw.githubusercontent.com/gclouduniverse/nova-agents/master/utils.sh >> utils.sh
 source utils.sh
 
 cd ${JUPYTER_SERVER_ROOT}
