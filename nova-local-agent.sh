@@ -36,7 +36,7 @@ do
       echo "Waiting for job:$job to start running"
       gsutil ls ${machine_dir}/RUNNING
       if [[ "$?" == "0" ]]; then
-        gsutil cp ${machine_dir}/RUNNING .
+        gsutil cp ${machine_dir}/RUNNING jobs/$job/RUNNING
         rm jobs/$job/SUBMITTED
       fi
       continue
