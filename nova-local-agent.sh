@@ -26,7 +26,7 @@ do
       echo $mcount
       export dir=$(get-yaml-val dir ${jobfile})
       echo $dir
-      ls ${JUPYTER_SERVER_ROOT}/$dir  || continue
+      ls $dir  || continue
       export mtype=$(get-yaml-val machine_type ${jobfile})
       echo $mtype
       export zone=$(get-yaml-val zone ${jobfile})
