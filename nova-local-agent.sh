@@ -14,9 +14,33 @@ do
   for jobfile in jobs/*.yaml
   do
     export job=${jobfile:5:-5}
+    ls jobs/$job/DONE
+    if [[ "$?" == "0" ]]; then continue; fi
+    ls jobs/$job/RUNNING
+    if [[ "$?" == "0" ]]; then
+      echo "Waiting for job:$job to finish"
+      gsutil ls ${GCS_BUCKET}/jobs/${job}/DONE
+      if [[ "$?" == "0" ]]; then
+        gsutil cp ${GCS_BUCKET}/jobs/${job}/DONE jobs/${job}/DONE
+        gsutil cp ${GCS_BUCKET}/jobs/${job}/*.output.ipynb jobs/${job}/
+        rm jobs/${job}/RUNNING
+      fi
+      continue
+    fi
+    ls jobs/$job/SUBMITTED
+    if [[ "$?" == "0" ]]; then
+      echo "Waiting for job:$job to start running"
+      gsutil ls ${GCS_BUCKET}/jobs/${job}/RUNNING
+      if [[ "$?" == "0" ]]; then
+        gsutil cp ${GCS_BUCKET}/jobs/${job}/RUNNING .
+        rm jobs/$job/SUBMITTED
+      fi
+      continue
+    fi
     echo "Processing job ${job}"
-    gsutil ls ${GCS_BUCKET}/jobs/${job}
     if [[ "$?" != "0" ]]; then
+      mkdir jobs/$job
+      echo "$(date)" >> jobs/$job/SUBMITTED
       echo "Creating job ${job}"
       export gput=$(get-yaml-val gpu_type ${jobfile})
       echo $gput
