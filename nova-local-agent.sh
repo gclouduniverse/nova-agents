@@ -20,11 +20,11 @@ do
     if [[ "$?" == "0" ]]; then
       echo "Waiting for job:$job to finish"
       export machine=$(echo job${job}1 | tr - x)
-      export machine_dir=$GCS_BUCKET/jobs/$job/$machine
+      export machine_dir=$GCS_BUCKET/.jobs/$job/$machine
       gsutil ls ${machine_dir}/DONE
       if [[ "$?" == "0" ]]; then
-        gsutil cp ${machine_dir}/DONE jobs/${job}/DONE
-        gsutil cp ${machine_dir}/*.output.ipynb jobs/${job}/
+        gsutil cp ${machine_dir}/DONE .jobs/${job}/DONE
+        gsutil cp ${machine_dir}/*.output.ipynb .jobs/${job}/
         rm .jobs/${job}/RUNNING
       fi
       continue
@@ -32,7 +32,7 @@ do
     ls .jobs/$job/SUBMITTED
     if [[ "$?" == "0" ]]; then
       export machine=$(echo job${job}1 | tr - x)
-      export machine_dir=$GCS_BUCKET/jobs/$job/$machine
+      export machine_dir=$GCS_BUCKET/.jobs/$job/$machine
       echo "Waiting for job:$job to start running"
       gsutil ls ${machine_dir}/RUNNING
       if [[ "$?" == "0" ]]; then
@@ -59,10 +59,10 @@ do
       export zone=$(get-yaml-val zone ${jobfile})
       [[ -z "$zone" ]] || export ZONE=$zone
       echo $ZONE
-      gsutil mkdir $GCS_BUCKET/jobs/$job
+      gsutil mkdir $GCS_BUCKET/.jobs/$job
       for i in $(seq 1 1 $mcount); do
         export machine=$(echo job$job$i | tr - x)
-        export machine_dir=$GCS_BUCKET/jobs/$job/$machine
+        export machine_dir=$GCS_BUCKET/.jobs/$job/$machine
         gsutil cp -r $dir/* $machine_dir/homedir/
         gsutil cp .jobs/$job.yaml $machine_dir/$job.yaml
 
