@@ -13,7 +13,7 @@ do
   echo "Jobs found."
   for jobfile in .jobs/*.yaml
   do
-    export job=${jobfile:5:-5}
+    export job=${jobfile:6:-5}
     ls .jobs/$job/DONE
     if [[ "$?" == "0" ]]; then continue; fi
     ls .jobs/$job/RUNNING
