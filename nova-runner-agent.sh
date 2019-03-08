@@ -5,7 +5,7 @@ source utils.sh
 cd ${JUPYTER_SERVER_ROOT}
 [[ -e runningjobs ]] || mkdir runningjobs
 cd runningjobs
-export jobsdir=${GCS_BUCKET}/jobs/
+export jobsdir=${GCS_BUCKET}/.jobs/
 gsutil ls $jobsdir > /tmp/jobs.txt
 while read jobdir; do
   echo $jobdir
