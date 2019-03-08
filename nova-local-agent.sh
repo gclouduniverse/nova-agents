@@ -4,19 +4,19 @@ source utils.sh
 gsutil ls ${GCS_BUCKET} ||  gsutil mb ${GCS_BUCKET}
 
 cd ${JUPYTER_SERVER_ROOT}
-[[ -e jobs ]] || mkdir jobs
+[[ -e .jobs ]] || mkdir .jobs
 
 while :
 do
   sleep 5
-  ls jobs/*.yaml || continue
+  ls .jobs/*.yaml || continue
   echo "Jobs found."
-  for jobfile in jobs/*.yaml
+  for jobfile in .jobs/*.yaml
   do
     export job=${jobfile:5:-5}
-    ls jobs/$job/DONE
+    ls .jobs/$job/DONE
     if [[ "$?" == "0" ]]; then continue; fi
-    ls jobs/$job/RUNNING
+    ls .jobs/$job/RUNNING
     if [[ "$?" == "0" ]]; then
       echo "Waiting for job:$job to finish"
       export machine=$(echo job${job}1 | tr - x)
@@ -25,25 +25,25 @@ do
       if [[ "$?" == "0" ]]; then
         gsutil cp ${machine_dir}/DONE jobs/${job}/DONE
         gsutil cp ${machine_dir}/*.output.ipynb jobs/${job}/
-        rm jobs/${job}/RUNNING
+        rm .jobs/${job}/RUNNING
       fi
       continue
     fi
-    ls jobs/$job/SUBMITTED
+    ls .jobs/$job/SUBMITTED
     if [[ "$?" == "0" ]]; then
       export machine=$(echo job${job}1 | tr - x)
       export machine_dir=$GCS_BUCKET/jobs/$job/$machine
       echo "Waiting for job:$job to start running"
       gsutil ls ${machine_dir}/RUNNING
       if [[ "$?" == "0" ]]; then
-        gsutil cp ${machine_dir}/RUNNING jobs/$job/RUNNING
-        rm jobs/$job/SUBMITTED
+        gsutil cp ${machine_dir}/RUNNING .jobs/$job/RUNNING
+        rm .jobs/$job/SUBMITTED
       fi
       continue
     fi
     echo "Processing job ${job}"
-      mkdir jobs/$job
-      echo "$(date)" >> jobs/$job/SUBMITTED
+      mkdir .jobs/$job
+      echo "$(date)" >> .jobs/$job/SUBMITTED
       echo "Creating job ${job}"
       export gput=$(get-yaml-val gpu_type ${jobfile})
       echo $gput
@@ -64,7 +64,7 @@ do
         export machine=$(echo job$job$i | tr - x)
         export machine_dir=$GCS_BUCKET/jobs/$job/$machine
         gsutil cp -r $dir/* $machine_dir/homedir/
-        gsutil cp jobs/$job.yaml $machine_dir/$job.yaml
+        gsutil cp .jobs/$job.yaml $machine_dir/$job.yaml
 
         echo "Creating VM: $machine"
         echo "Image: $(get-image)"
