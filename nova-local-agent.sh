@@ -73,7 +73,7 @@ do
           --image-family=$(get-image) \
           --image-project=deeplearning-platform-release \
           --maintenance-policy=TERMINATE \
-          --accelerator="type=$gput,count=$gpuc"\
+          $(get-accelerator-options $gput $gpuc)\
           --machine-type=$mtype \
           --boot-disk-size=200GB \
           --scopes=https://www.googleapis.com/auth/cloud-platform \
