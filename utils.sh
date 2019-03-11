@@ -21,3 +21,10 @@ function get-image() {
   fi
 }
 
+function get-accelerator-options() {
+  if [[ "$2" == "0" ]]; then
+    echo ""
+  else
+    echo "--accelerator='type=$1,count=$2'"
+  fi
+}
