@@ -25,6 +25,6 @@ function get-accelerator-options() {
   if [[ "$2" == "0" ]]; then
     echo ""
   else
-    echo "--accelerator=\"type=$1,count=$2\""
+    echo "--accelerator=type=$1,count=$2"
   fi
 }
