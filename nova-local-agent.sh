@@ -77,7 +77,7 @@ do
           --machine-type=$mtype \
           --boot-disk-size=200GB \
           --scopes=https://www.googleapis.com/auth/cloud-platform \
-          --metadata="post-startup-script=https://raw.githubusercontent.com/gclouduniverse/nova-agents/master/nova-runner-agent.sh"
+          --metadata="install-nvidia-driver=True,post-startup-script=https://raw.githubusercontent.com/gclouduniverse/nova-agents/master/nova-runner-agent.sh"
       done
   done
 done
