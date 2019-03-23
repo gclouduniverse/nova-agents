@@ -22,9 +22,9 @@ function get-image() {
 }
 
 function get-accelerator-options() {
-  if [[ "$2" == "0" ]]; then
+  if [[ "$1" == "0" ]]; then
     echo ""
   else
-    echo "--accelerator=type=$1,count=$2"
+    echo "--accelerator=type=$2,count=$1"
   fi
 }
