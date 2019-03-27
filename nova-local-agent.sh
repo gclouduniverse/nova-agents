@@ -25,6 +25,8 @@ do
       if [[ "$?" == "0" ]]; then
         gsutil cp ${machine_dir}/DONE .jobs/${job}/DONE
         gsutil cp ${machine_dir}/*.output.ipynb .jobs/${job}/
+        mkdir -p /home/jupyter/job_results/
+        gsutil cp ${machine_dir}/*.output.ipynb /home/jupyter/job_results/
         rm .jobs/${job}/RUNNING
       fi
       continue
