@@ -6,7 +6,7 @@ Type=simple
 Restart=always
 RestartSec=1
 User=jupyter
-ExecStart=/usr/bin/nova-local-agent.sh
+ExecStart=/usr/bin/nova-local-agent.sh &> /var/log/nova
 
 [Install]
 WantedBy=multi-user.target
