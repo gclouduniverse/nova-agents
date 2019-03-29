@@ -23,11 +23,12 @@ do
       export machine_dir=$GCS_BUCKET/.jobs/$job/$machine
       gsutil ls ${machine_dir}/DONE
       if [[ "$?" == "0" ]]; then
-        gsutil cp ${machine_dir}/DONE .jobs/${job}/DONE
-        gsutil cp ${machine_dir}/*.output.ipynb .jobs/${job}/
-        mkdir -p /home/jupyter/job_results/
-        gsutil cp ${machine_dir}/*.output.ipynb /home/jupyter/job_results/
-        rm .jobs/${job}/RUNNING
+        gsutil cp ${machine_dir}/DONE "${HOME}/.jobs/${job}/DONE"
+        gsutil cp ${machine_dir}/*.output.ipynb "${HOME}/.jobs/${job}/"
+	JOB_SUBMISSION_DATE=$(cat "${HOME}/.jobs/${job}/SUBMISSION_DATE")
+        mkdir -p "${HOME}/job_results/${JOB_SUBMISSION_DATE}/"
+        gsutil cp ${machine_dir}/*.output.ipynb "${HOME}/job_results/${JOB_SUBMISSION_DATE}/"
+        rm -rf "${HOME}/.jobs/${job}"
       fi
       continue
     fi
@@ -39,7 +40,7 @@ do
       gsutil ls ${machine_dir}/RUNNING
       if [[ "$?" == "0" ]]; then
         gsutil cp ${machine_dir}/RUNNING .jobs/$job/RUNNING
-        rm .jobs/$job/SUBMITTED
+	mv .jobs/$job/SUBMITTED .jobs/$job/SUBMISSION_DATE
       fi
       continue
     fi
